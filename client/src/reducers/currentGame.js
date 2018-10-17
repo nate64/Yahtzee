@@ -1,18 +1,14 @@
-//global state in current game
-import { bindActionCreators } from "redux";
-
-
 const ROLL_DICE = 'ROLL_DICE'
 const TOGGLE_KEPT = 'TOGGLE_KEPT'
 
 export const rollDice = () => {
-  return (dispatch, getState) => { 
+  return (dispatch, getState) => {
     const { keep, dice } = getState().currentGame
 
     const newDice = dice.map( (d, i) => {
-      if(keep.includes(i))
+      if (keep.includes(i))
         return d
-      return Math.floor(Math.random() * 6 ) + 1
+      return Math.floor(Math.random() * 6) + 1
     })
 
     dispatch({ type: ROLL_DICE, dice: newDice })
@@ -21,10 +17,10 @@ export const rollDice = () => {
 
 export const toggleKept = (i) => {
   return (dispatch, getState) => {
-    const { keep } = getState().currentGame 
+    const { keep } = getState().currentGame
     let updated
 
-    if(keep.includes(i))
+    if (keep.includes(i))
       updated = keep.filter( d => d !== i )
     else
       updated = [...keep, i]
@@ -33,22 +29,22 @@ export const toggleKept = (i) => {
   }
 }
 
-export default(
+export default (
   state = {
     roll: 0,
-    dice: [ ...new Array(5)],
+    dice: [...new Array(5)],
     keep: [],
-  }
+  },
   action
 ) => {
-  switch(action.type){
+  switch(action.type) {
     case ROLL_DICE:
       return {
         ...state,
         dice: action.dice,
         roll: state.roll + 1
       }
-    case TOGGLE_KEPT:
+    case TOGGLE_KEPT: 
       return {
         ...state,
         keep: action.keep
